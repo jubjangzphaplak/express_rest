@@ -105,9 +105,9 @@ function deleteProduct(req, res) {
 }
 
 
-//User
+
 //USER
-function getUser(req, res) {
+function getUser (req, res) {
     db.any('select * from users')
         .then(function (data) {
             res.status(200)
@@ -122,8 +122,8 @@ function getUser(req, res) {
         })
 }
 
-function getUserByID(req, res) {
-    db.any('select * from users where user_id =' + req.params.id)
+function getUserByID (req, res) {
+    db.any('select * from users where id =' + req.params.id)
         .then(function (data) {
             res.status(200)
                 .json({
@@ -138,47 +138,44 @@ function getUserByID(req, res) {
             console.log('ERROR:', error)
         })
 }
-function insertUser(req, res) {
-    db.any('insert into users(user_id,email,password,details,created_at)' +
-        'values(${user_id}, ${email}, ${password}, ${details}, ${created_at}',
+
+function insertUsers(req, res) {
+    db.none('insert into users(id, email, password, created_at)' +
+        'values(${id}, ${email}, ${password}, ${created_at})',
         req.body)
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    message: 'Inserted one'
+                    message: 'Inserted one users'
                 });
         })
         .catch(function (error) {
             console.log('ERROR:', error)
         })
-
-
 }
-
-function updateUser(req, res) {
-    db.any('update users set email=${email},password=${password},details=${details},created_at=${created_at} where user_id =' + req.params.id,
-        req.body)
+function updateUsers(req, res) {
+    db.none('update users set id=${id} ,email= ${email},password= ${password},created_at= ${created_at}' + 'where id=' + req.params.id, req.body)
         .then(function (data) {
-            res.status(200).json({
-                status: 'success',
-                data: data,
-                message: 'update purchase id=' + req.params.id
-            });
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Update one users'
+                });
         })
         .catch(function (error) {
             console.log('ERROR:', error)
         })
 }
+function deleteUsers(req, res) {
+    db.none('delete from users' + 'where id=' + req.params.id)
 
-function deleteUser(req, res) {
-    db.any('DELETE from users where user_id=' + req.params.id)
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    message: 'Delete id=' + req.params.id
-                })
+                    message: 'Delete one users'
+                });
         })
         .catch(function (error) {
             console.log('ERROR:', error)
@@ -198,9 +195,10 @@ module.exports = {
     deleteProduct,
     getUser,
     getUserByID,
-    updateUser,
-    insertUser,
-    deleteUser
+    insertUsers,
+    updateUsers,
+    deleteUsers
+ 
 
 
 };

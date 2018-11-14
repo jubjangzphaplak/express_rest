@@ -42,11 +42,13 @@ app.delete('/api/products/:id', db.deleteProduct);
 
 
 //Users
-app.get('/api/User', db.getUser);
-app.get('/api/User/:id', db.getUserByID);
-app.post('/api/User', db.insertUser);
-app.put('/api/User/:id', db.updateUser);
-app.delete('/api/User/:id', db.deleteUser);
+app.get('/api/users/', db.getUser);
+app.get('/api/users/:id', db.getUserByID);
+app.post('/api/users', db.insertUsers);
+app.put('/api/users/:id', db.updateUsers);
+app.delete('/api/users/:id', db.deleteUsers);
+
+
 
 
 var port = process.env.PORT || 8080;
