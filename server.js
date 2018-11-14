@@ -33,12 +33,21 @@ var output = {
 app.get('/api/json' , function (req, res) {
         res.status(500).json(output);
     });
-
+//products
 app.get('/api/products/',db.getAllProducts);
 app.get('/api/products/:id', db.getProductByID);
 app.post('/api/products/', db.insertProduct);
 app.put('/api/products/:id', db.updateProduct);
 app.delete('/api/products/:id', db.deleteProduct);
+
+
+//Users
+app.get('/api/User', db.getUser);
+app.get('/api/User/:id', db.getUserByID);
+app.post('/api/User', db.insertUser);
+app.put('/api/User/:id', db.updateUser);
+app.delete('/api/User/:id', db.deleteUser);
+
 
 var port = process.env.PORT || 8080;
 app.listen(port, function () {

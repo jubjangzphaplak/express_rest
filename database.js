@@ -54,48 +54,6 @@ function insertProduct(req, res) {
         })
         .catch(function (error) {
             res.status(500)
-            .json({
-                status: 'failed',
-                message: 'Failed to retrieved products id:' + req.params.id
-            });
-        console.log('ERROR:', error)
-    })
-}
-
-
-function updateProduct(req, res) {
-    db.none('update products set id=${id},title=${title},price=${price},tags=${tags} ' +
-       'where id='+ req.params.id, req.body )
-   
-        .then(function (data) {
-            res.status(200)
-                .json({
-                    status: 'success',
-                    message: 'update one product'
-                });
-        })
-        .catch(function (error) {
-            res.status(500)
-            .json({
-                status: 'failed',
-                message: 'Failed to retrieved products id:' + req.params.id
-            });
-        console.log('ERROR:', error)
-    })
-}
-
-function deleteProduct (req, res) {
-    db.none('delete from products where id='+ req.params.id)
-
-  .then(function (data) {
-        res.status(200)
-            .json({
-                status: 'success',
-                message: 'DELETE one product'
-            });
-    })
-    .catch(function (error) {
-        res.status(500)
                 .json({
                     status: 'failed',
                     message: 'Failed to retrieved products id:' + req.params.id
@@ -105,12 +63,144 @@ function deleteProduct (req, res) {
 }
 
 
+function updateProduct(req, res) {
+    db.none('update products set id=${id},title=${title},price=${price},tags=${tags} ' +
+        'where id=' + req.params.id, req.body)
+
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'update one product'
+                });
+        })
+        .catch(function (error) {
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieved products id:' + req.params.id
+                });
+            console.log('ERROR:', error)
+        })
+}
+
+function deleteProduct(req, res) {
+    db.none('delete from products where id=' + req.params.id)
+
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'DELETE one product'
+                });
+        })
+        .catch(function (error) {
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieved products id:' + req.params.id
+                });
+            console.log('ERROR:', error)
+        })
+}
+
+
+//User
+//USER
+function getUser(req, res) {
+    db.any('select * from users')
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL User'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+
+function getUserByID(req, res) {
+    db.any('select * from users where user_id =' + req.params.id)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved Purchase_items id:' + req.params.id
+                });
+        })
+        .catch(function (error) {
+            res.status(500)
+                .json({ status: "fail", message: "Fail" })
+            console.log('ERROR:', error)
+        })
+}
+function insertUser(req, res) {
+    db.any('insert into users(user_id,email,password,details,created_at)' +
+        'values(${user_id}, ${email}, ${password}, ${details}, ${created_at}',
+        req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Inserted one'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+
+
+}
+
+function updateUser(req, res) {
+    db.any('update users set email=${email},password=${password},details=${details},created_at=${created_at} where user_id =' + req.params.id,
+        req.body)
+        .then(function (data) {
+            res.status(200).json({
+                status: 'success',
+                data: data,
+                message: 'update purchase id=' + req.params.id
+            });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+
+function deleteUser(req, res) {
+    db.any('DELETE from users where user_id=' + req.params.id)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Delete id=' + req.params.id
+                })
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+
+
+
+
+
 
 module.exports = {
     getAllProducts,
     getProductByID,
     insertProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getUser,
+    getUserByID,
+    updateUser,
+    insertUser,
+    deleteUser
+
 
 };
